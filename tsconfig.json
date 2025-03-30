@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // Change target to ESNext
+    "module": "ESNext", // Use ESNext module system (ESM)
+    "lib": ["ESNext", "DOM"], // Update lib to ESNext
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}

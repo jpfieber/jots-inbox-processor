@@ -1,0 +1,15 @@
+{
+  "id": "jots-inbox-processor",
+  "name": "JOTS Inbox Processor",
+  "version": "1.0.0",
+  "minAppVersion": "0.9.12",
+  "description": "A plugin to process files from an 'Inbox' at a set interval.",
+  "author": "Joseph Fieber",
+  "authorUrl": "https://josephfieber.com",
+  "fundingUrl": {
+    "Buy Me a Coffee": "https://www.buymeacoffee.com/n7Rd8LVmR9",
+		"GitHub Sponsors": "https://github.com/sponsors/jpfieber",
+		"PayPal": "https://www.paypal.biz/jpfieber"
+	},
+  "isDesktopOnly": false
+}

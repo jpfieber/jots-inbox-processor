@@ -1,0 +1,42 @@
+{
+  "name": "jots-inbox-processor",
+  "version": "1.0.0",
+  "description": "A plugin to process files from an 'Inbox' at a set interval.",
+  "main": "dist/main.js",
+  "module": "dist/main.js",
+  "scripts": {
+    "build": "vite build"
+  },
+  "keywords": [
+    "obsidian",
+    "plugin",
+    "jots",
+    "inbox"
+  ],
+  "author": "Joseph Fieber",
+  "license": "MIT",
+  "dependencies": {
+    "obsidian": "^1.8.7"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "rollup": "^4.36.0",
+    "rollup-plugin-copy": "^3.5.0",
+    "typescript": "^4.9.5",
+    "vite": "^6.2.3"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/jots-inbox-processor.git"
+  },
+  "homepage": "https://github.com/yourusername/jots-inbox-processor#readme",
+  "bugs": {
+    "url": "https://github.com/yourusername/jots-inbox-processor/issues"
+  }
+}
