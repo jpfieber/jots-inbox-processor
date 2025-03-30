@@ -6,6 +6,8 @@ I have many ways of getting content into Obsidian, and the most basic is to dump
 
 The way it works is by setting up Rules based on patterns in your filenames. If a filename matches one of the rules, the file is sent to a specified folder, and organized there in a specified way.
 
+<a href="https://www.buymeacoffee.com/n7Rd8LVmR9"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=n7Rd8LVmR9&button_colour=6a8695&font_colour=ffffff&font_family=Poppins&outline_colour=000000&coffee_colour=FFDD00"></a>
+
 ## Settings
 
 Inbox Processor needs a few simple settings:
