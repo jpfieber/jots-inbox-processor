@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # Obsidian - Inbox Processor Plugin
 
 Automate moving files from your Inbox
