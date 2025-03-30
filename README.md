@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # Obsidian - Inbox Processor Plugin
 
@@ -35,3 +36,7 @@ With the basics set, you can then define the **Rules** for each type of file you
 
 There are three ways files are handled:
 1. Known files:  I use a specific format for the PDF documents I save (receipts, bank statements, mail, etc) that looks like this:  YYYYMMDD - <Important> -- <Extra>.  So as an example, If I'm saving a bank statement and want it in my vault, I'll title the file "20250331 - My Bank -- Statement.pdf".
+=======
+# jots-inbox-processor
+Automate moving files from your Obsidian Inbox
+>>>>>>> ba67760f650a0a82e3b23006f25088e7de57a0f0
