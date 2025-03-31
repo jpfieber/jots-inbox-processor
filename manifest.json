@@ -3,7 +3,7 @@
   "name": "JOTS Inbox Processor",
   "version": "1.0.0",
   "minAppVersion": "0.9.12",
-  "description": "A plugin to process files from an 'Inbox' at a set interval.",
+  "description": "Automate moving files from your Obsidian Inbox.",
   "author": "Joseph Fieber",
   "authorUrl": "https://josephfieber.com",
   "fundingUrl": {
