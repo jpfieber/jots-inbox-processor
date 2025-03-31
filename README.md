@@ -6,7 +6,7 @@ I have many ways of getting content into Obsidian, and the most basic is to dump
 
 The way it works is by setting up Rules based on patterns in your filenames. If a filename matches one of the rules, the file is sent to a specified folder, and organized there in a specified way.
 
-<a href="https://www.buymeacoffee.com/n7Rd8LVmR9"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=n7Rd8LVmR9&button_colour=6a8695&font_colour=ffffff&font_family=Poppins&outline_colour=000000&coffee_colour=FFDD00"></a>
+<a href="https://www.buymeacoffee.com/n7Rd8LVmR9" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="60"></a>
 
 ## Settings
 
@@ -29,3 +29,8 @@ With the basics set, you can then define the **Rules** for each type of file you
 - **Pattern** is a way of being more specific than just file extension. It uses a 'Regular Expression' (Regex) to specify the pattern of the filename, not including the extension, that you want to move. For example, I have a rule with `^\d{8}_\d{6}` that I use for files with extensions `jpg|png`.  Translated, that means "Starting from the beginning of the filename, look for a name that has 8 numbers followed by an underscore and then another 6 numbers (I use https://regex101.com/ to figure out the proper expressions).  If you just want every file with a particular extension moved, you can leave this blank.
 - **Controls**: is where you can delete an unneeded rule, or re-order the existing rules.  The rules are process from top to bottom, so if a file fits the first rule, it will be processed, and the rest of the rules will not apply to it.  This implies that more specific rules likely should be at the top, and more general rules at the bottom.
 - You can use the **Add Rule** button at the bottom to add an additional rule.
+
+## Support
+
+If this plugin helped you and you wish to contribute:
+<a href="https://www.buymeacoffee.com/n7Rd8LVmR9" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="60"></a>&nbsp;
