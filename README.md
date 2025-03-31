@@ -1,4 +1,4 @@
-# JOTS - Inbox Processor Plugin
+# Inbox Processor Plugin
 
 Automate moving files from your Inbox
 

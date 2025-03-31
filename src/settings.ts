@@ -397,7 +397,7 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
         coffeeDiv.style.textAlign = 'center';
 
         coffeeDiv.innerHTML = `
-            <a href="https://www.buymeacoffee.com/n7Rd8LVmR9" target="_blank">
+            <a href="https://www.buymeacoffee.com/jpfieber" target="_blank">
                 <img 
                     src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
                     alt="Buy Me A Coffee" 

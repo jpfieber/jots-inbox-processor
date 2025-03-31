@@ -1,6 +1,6 @@
 {
   "id": "jots-inbox-processor",
-  "name": "JOTS Inbox Processor",
+  "name": "Inbox Processor",
   "version": "1.0.0",
   "minAppVersion": "0.9.12",
   "description": "Automate moving files from your Obsidian Inbox.",
