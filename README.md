@@ -2,6 +2,10 @@
 
 Automate moving files from your Inbox
 
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/jpfieber/jots-inbox-processor/release.yml?logo=github)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/jpfieber/jots-inbox-processor?sort=semver)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/jpfieber/jots-inbox-processor/total)
+
 I have many ways of getting content into Obsidian, and the most basic is to dump it into my "Inbox". The Inbox is like a waiting room, files go there and are triaged.  If a file was expected, like a bank statement, it's hurried off to it's appointment. If a file is unexpected, like something I clipped from the internet, then it will need to wait until I can find out more about it.  **Inbox Processor** is like the receptionist in that waiting room, directing files to where they need to go, or making them wait.
 
 The way it works is by setting up Rules based on patterns in your filenames. If a filename matches one of the rules, the file is sent to a specified folder, and organized there in a specified way.
