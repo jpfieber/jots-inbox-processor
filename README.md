@@ -33,6 +33,7 @@ With the basics set, you can then define the **Rules** for each type of file you
 ## JOTS
 
 While this plugin works on it's own in most any vault, it is part of a larger system called <a href="https://jots.life">JOTS: Joe's Obsidian Tracking System</a>. Learn more about it <a href="https://jots.life">here</a>.
+
 ![JOTS-Logo-64](https://github.com/user-attachments/assets/e29ba5d7-8bdd-4cd9-8336-5fa35b7b593e)
 
 ## Support
