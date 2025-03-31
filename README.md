@@ -6,7 +6,7 @@ I have many ways of getting content into Obsidian, and the most basic is to dump
 
 The way it works is by setting up Rules based on patterns in your filenames. If a filename matches one of the rules, the file is sent to a specified folder, and organized there in a specified way.
 
-<a href="https://www.buymeacoffee.com/n7Rd8LVmR9" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="60"></a>
+<a href="https://www.buymeacoffee.com/jpfieber" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="60"></a>
 
 ## Settings
 
@@ -40,4 +40,4 @@ While this plugin works on it's own in most any vault, it is part of a larger sy
 
 If this plugin helped you and you wish to contribute:
 
-<a href="https://www.buymeacoffee.com/n7Rd8LVmR9" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="60"></a>&nbsp;
+<a href="https://www.buymeacoffee.com/jpfieber" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="60"></a>&nbsp;
