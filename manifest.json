@@ -2,10 +2,10 @@
   "id": "jots-inbox-processor",
   "name": "Inbox Processor",
   "version": "1.0.0",
-  "minAppVersion": "0.9.12",
+  "minAppVersion": "1.0.0",
   "description": "Automate moving files from your Obsidian Inbox.",
   "author": "Joseph Fieber",
-  "authorUrl": "https://josephfieber.com",
+  "authorUrl": "https://jots.life",
   "fundingUrl": {
     "Buy Me a Coffee": "https://www.buymeacoffee.com/jpfieber",
 		"GitHub Sponsors": "https://github.com/sponsors/jpfieber",
