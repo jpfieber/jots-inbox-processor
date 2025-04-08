@@ -1,3 +1,5 @@
+import { TFolder } from 'obsidian';
+
 export class FolderSuggest {
     private app: App;
     private inputEl: HTMLInputElement;

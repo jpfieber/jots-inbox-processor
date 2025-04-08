@@ -37,13 +37,21 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                 text.setPlaceholder('Enter folder name')
                     .setValue(this.plugin.settings.inboxFolder || '_Inbox')
                     .onChange(async (value) => {
+                        if (!this.isValidFolder(value)) {
+                            console.error('Inbox folder is empty or does not exist.');
+                            return;
+                        }
                         this.plugin.settings.inboxFolder = value;
                         await this.plugin.saveSettings();
                     });
-
+    
                 setTimeout(() => {
                     if (text.inputEl) {
                         new FolderSuggest(this.app, text.inputEl, async (folder) => {
+                            if (!this.isValidFolder(folder)) {
+                                console.error('Inbox folder is empty or does not exist.');
+                                return;
+                            }
                             this.plugin.settings.inboxFolder = folder;
                             await this.plugin.saveSettings();
                         });
@@ -51,7 +59,12 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                 }, 0);
             });
     }
-
+    
+    private isValidFolder(folderPath: string): boolean {
+        const folder = this.app.vault.getAbstractFileByPath(folderPath);
+        return folder instanceof TFolder;
+    }
+    
     private addIntervalSetting(containerEl: HTMLElement) {
         new Setting(containerEl)
             .setName('Interval (seconds)')
