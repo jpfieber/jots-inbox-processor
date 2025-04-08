@@ -16,7 +16,8 @@
   "author": "Joseph Fieber",
   "license": "MIT",
   "dependencies": {
-    "obsidian": "^1.8.7"
+    "obsidian": "^1.8.7",
+    "obsidian-utilities": "^1.1.5"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.3",

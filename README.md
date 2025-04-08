@@ -2,9 +2,7 @@
 
 Automate moving files from your Inbox
 
-I have many ways of getting content into Obsidian, and the most basic is to dump it into my "Inbox". The Inbox is like a waiting room, files go there and are triaged.  If a file was expected, like a bank statement, it's hurried off to it's appointment. If a file is unexpected, like something I clipped from the internet, then it will need to wait until I can find out more about it.  **Inbox Processor** is like the receptionist in that waiting room, directing files to where they need to go, or making them wait.
-
-The way it works is by setting up Rules based on patterns in your filenames. If a filename matches one of the rules, the file is sent to a specified folder, and organized there in a specified way.
+I have many ways of getting content into my Obsidian vault, and the most basic is to dump it into my "Inbox". My Inbox is a temporary holding space where I put content that needs to be evaluated before it moves on to it's eventual home.  **Inbox Processor** is a tool to help automate some of that evaluation.  By providing configurable Rules, you can have some files automatially moved elsewhere based on naming patterns and file types.
 
 <a href="https://www.buymeacoffee.com/jpfieber" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="60"></a>
 
@@ -16,19 +14,24 @@ Inbox Processor needs a few simple settings:
 - **Convert Extensions to Lowercase**:  Some features in Obsidian handle upper and lowercase extensions differently, so I like to force all of mine to lowercase, which you can do by enabling this option.
 
 With the basics set, you can then define the **Rules** for each type of file you'd like Inbox Processor to automatically organize:
-- **Location** is the root folder for the files to be moved to. I have a folder called `Chronological` that I user to hold content that I like to organize by date, so I have rules with locations like `Chronological/Documents` and `Chronological/Photos`.
-- **Structure** is how the Location folder is organized.  You can leave this blank if you just want files moved to the Location folder, or you can add a structure using YMD notation.  The files name is parsed for a date, and then broken down into year, month and day.  You can then use the letters Y and M to specify a structure:
+- **Location** is the root folder for the files to be moved to. I have a folder called `Chrono` (short for 'Chronological') that I use to hold content that I like to organize by date, so I have rules with locations like `Chrono/Documents` and `Chrono/Photos`.
+- **Structure** is how the Location folder is organized.  You can leave this blank if you just want files moved to the Location folder, or you can add a structure using 'YMD' notation.  The files name is parsed for a date, and then broken down into year, month and day.  You can then use the letters Y and M to specify a structure:
 	- YY = 25
 	- YYYY = 2025
 	- M = 3
 	- MM = 03
 	- MMM = Mar
 	- MMMM = March
-	- I have all mine set to `YYYY/YYYY-MM` so a file like `20250331 - My Bank -- Statement.pdf` will end up in `Chronological/Documents/2025/2025-03`.  If you don't need any structure and just want your files moved to the root of the Location folder, you can leave Structure blank.
+	- I have all mine set to `YYYY/YYYY-MM` so a file like `20250331 - Chemical Bank -- Statement.pdf` will end up in `Chrono/Documents/2025/2025-03`.  If you don't need any structure and just want your files moved to the root of the Location folder, you can leave Structure blank.
 - **Extensions** refers to the file extensions you want to affect. Type one or more lowercase extensions separated by "|" and the rule will only apply to files that end with those extensions.  For example, I have a rule with `txt|htm|html|pdf` that moves applicable files with those extensions to my Documents folder.
 - **Pattern** is a way of being more specific than just file extension. It uses a 'Regular Expression' (Regex) to specify the pattern of the filename, not including the extension, that you want to move. For example, I have a rule with `^\d{8}_\d{6}` that I use for files with extensions `jpg|png`.  Translated, that means "Starting from the beginning of the filename, look for a name that has 8 numbers followed by an underscore and then another 6 numbers (I use https://regex101.com/ to figure out the proper expressions).  If you just want every file with a particular extension moved, you can leave this blank.
 - **Controls**: is where you can delete an unneeded rule, or re-order the existing rules.  The rules are process from top to bottom, so if a file fits the first rule, it will be processed, and the rest of the rules will not apply to it.  This implies that more specific rules likely should be at the top, and more general rules at the bottom.
 - You can use the **Add Rule** button at the bottom to add an additional rule.
+
+## Support
+
+- If you want to report a bug, it would be best to start an **Issue** on the [GitHub page](https://github.com/jpfieber/jots-inbox-processor/issues).
+- If you'd like to discuss how the plugin works, the best place would be the [JOTS SubReddit](https://www.reddit.com/r/Jots/)
 
 ## JOTS
 

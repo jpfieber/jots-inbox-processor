@@ -1,4 +1,5 @@
 import { App, PluginSettingTab, Setting, TFolder } from 'obsidian';
+import { FolderInputSuggest } from "obsidian-utilities";
 
 // FolderSuggest class for folder suggestions
 class FolderSuggest {
@@ -179,14 +180,18 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                         this.plugin.settings.inboxFolder = value;
                         await this.plugin.saveSettings();
                     });
-
-                new FolderSuggest(this.app, text.inputEl, async (folder) => {
-                    this.plugin.settings.inboxFolder = folder;
-                    await this.plugin.saveSettings();
-                });
+    
+                // Ensure the input element is initialized before passing it to FolderInputSuggest
+                setTimeout(() => {
+                    if (text.inputEl) {
+                        new FolderInputSuggest(this.app, text.inputEl);
+                    } else {
+                        console.error("Failed to initialize FolderInputSuggest: inputEl is undefined.");
+                    }
+                }, 0);
             });
     }
-
+        
     private addIntervalSetting(containerEl: HTMLElement) {
         new Setting(containerEl)
             .setName('Interval (seconds)')
@@ -379,7 +384,7 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
 
         const descriptionDiv = websiteDiv.createEl('div', { cls: 'website-description' });
         descriptionDiv.innerHTML = `
-            While Inbox Processor works on its own, it is part of a system called 
+            While this plugin works on its own, it is part of a system called 
             <a href="https://jots.life" target="_blank">JOTS</a> that helps capture, organize, 
             and visualize your life's details.
         `;
