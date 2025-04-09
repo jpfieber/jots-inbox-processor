@@ -17,12 +17,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18.x"
-        
-      - name: Install dependencies
-        run: npm ci # Faster and ensures a clean install
 
-      - name: Build the project
-        run: npx vite build
+      - name: Build plugin
+        run: |
+          npm install
+          npm run build
 
       - name: Create release
         env:
@@ -33,4 +32,4 @@ jobs:
           gh release create "$tag" \
             --title="$tag" \
             --draft \
-            dist/main.js manifest.json styles.css
+            main.js manifest.json styles.css
