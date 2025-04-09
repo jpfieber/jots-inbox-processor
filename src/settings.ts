@@ -1,5 +1,5 @@
 import { App, PluginSettingTab, Setting } from 'obsidian';
-import { FolderSuggest } from './folder-suggest';
+import { FolderInputSuggest } from 'obsidian-utilities';
 import { Rule } from './settings-model'; // Moved Rule interface to a separate file
 import { createInputField, createRuleActions } from './settings-utils'; // Utility functions
 
@@ -14,8 +14,6 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
     display(): void {
         const { containerEl } = this;
         containerEl.empty();
-
-        containerEl.createEl('h2', { text: 'Inbox Processor Settings' });
 
         this.addInboxFolderSetting(containerEl);
         this.addIntervalSetting(containerEl);
@@ -44,27 +42,16 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                         this.plugin.settings.inboxFolder = value;
                         await this.plugin.saveSettings();
                     });
-    
-                setTimeout(() => {
-                    if (text.inputEl) {
-                        new FolderSuggest(this.app, text.inputEl, async (folder) => {
-                            if (!this.isValidFolder(folder)) {
-                                console.error('Inbox folder is empty or does not exist.');
-                                return;
-                            }
-                            this.plugin.settings.inboxFolder = folder;
-                            await this.plugin.saveSettings();
-                        });
-                    }
-                }, 0);
+
+                new FolderInputSuggest(this.app, text.inputEl);
             });
     }
-    
+
     private isValidFolder(folderPath: string): boolean {
         const folder = this.app.vault.getAbstractFileByPath(folderPath);
         return folder instanceof TFolder;
     }
-    
+
     private addIntervalSetting(containerEl: HTMLElement) {
         new Setting(containerEl)
             .setName('Interval (seconds)')
@@ -109,10 +96,7 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                 this.plugin.settings.rules[index].rootFolder = locationInput.value;
                 await this.plugin.saveSettings();
             };
-            new FolderSuggest(this.app, locationInput, async (folder) => {
-                this.plugin.settings.rules[index].rootFolder = folder;
-                await this.plugin.saveSettings();
-            });
+            new FolderInputSuggest(this.app, locationInput);
 
             // Other columns
             createInputField(row.createEl('div', { cls: 'rules-column' }), rule.folderStructure, async (newValue) => {
