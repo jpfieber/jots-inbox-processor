@@ -45,13 +45,7 @@ class FolderSuggest {
 
         this.dropdown = document.createElement('div');
         this.dropdown.classList.add('suggestion-dropdown');
-        this.dropdown.style.position = 'absolute';
-        this.dropdown.style.zIndex = '1000';
-        this.dropdown.style.backgroundColor = 'white';
-        this.dropdown.style.border = '1px solid #ccc';
-        this.dropdown.style.padding = '5px';
-        this.dropdown.style.maxHeight = '200px';
-        this.dropdown.style.overflowY = 'auto';
+        // Removed inline styles for dropdown and added CSS class
 
         const rect = this.inputEl.getBoundingClientRect();
         this.dropdown.style.top = `${rect.bottom + window.scrollY}px`;
@@ -76,9 +70,8 @@ class FolderSuggest {
         filteredFolders.forEach(folder => {
             const item = document.createElement('div');
             item.classList.add('suggestion-item');
-            item.textContent = folder;
-            item.style.padding = '5px';
-            item.style.cursor = 'pointer';
+            // Removed inline styles for suggestion items and added CSS class
+            item.textContent = folder; // Set the folder name as the text content of the suggestion item
 
             item.addEventListener('click', () => {
                 this.inputEl.value = folder;
@@ -214,18 +207,18 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
 
     private addRulesTable(containerEl: HTMLElement) {
         const table = containerEl.createEl('div', { cls: 'rules-table' });
-    
+
         // Header row
         table.createEl('div', { text: 'Location', cls: 'rules-header' });
         table.createEl('div', { text: 'Structure', cls: 'rules-header' });
         table.createEl('div', { text: 'Extensions', cls: 'rules-header' });
         table.createEl('div', { text: 'Pattern', cls: 'rules-header' });
         table.createEl('div', { text: 'Controls', cls: 'rules-header' });
-    
+
         // Data rows
         this.plugin.settings.rules.forEach((rule: Rule, index: number) => {
             const row = table.createEl('div', { cls: 'rules-row' });
-    
+
             // Location column with folder suggestion
             const locationCell = row.createEl('div', { cls: 'rules-column' });
             const locationInput = locationCell.createEl('input', { type: 'text', value: rule.rootFolder });
@@ -237,35 +230,35 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                 this.plugin.settings.rules[index].rootFolder = folder;
                 await this.plugin.saveSettings();
             });
-    
+
             // Structure column
             const structureCell = row.createEl('div', { cls: 'rules-column' });
             this.createInputField(structureCell, rule.folderStructure, async (newValue) => {
                 this.plugin.settings.rules[index].folderStructure = newValue;
                 await this.plugin.saveSettings();
             });
-    
+
             // Extensions column
             const extensionsCell = row.createEl('div', { cls: 'rules-column' });
             this.createInputField(extensionsCell, rule.fileExtensions, async (newValue) => {
                 this.plugin.settings.rules[index].fileExtensions = newValue;
                 await this.plugin.saveSettings();
             });
-    
+
             // Pattern column
             const patternCell = row.createEl('div', { cls: 'rules-column' });
             this.createInputField(patternCell, rule.regex, async (newValue) => {
                 this.plugin.settings.rules[index].regex = newValue;
                 await this.plugin.saveSettings();
             });
-    
+
             // Controls column
             const actionsCell = row.createEl('div', { cls: 'rules-column-actions' });
             this.createRuleActions(actionsCell, index);
-    
+
             table.appendChild(row);
         });
-    
+
         // Add Rule button
         const addRuleButton = containerEl.createEl('button', { text: 'Add Rule', cls: 'rules-add-button' });
         addRuleButton.onclick = async () => {
@@ -274,7 +267,7 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
             this.display();
         };
     }
-            
+
     private createRuleRow(table: HTMLElement, rule: Rule, index: number) {
         const row = table.createEl('div', { cls: 'rules-row' });
 
@@ -331,7 +324,7 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                 this.display();
             }
         };
-    
+
         const moveDownButton = container.createEl('button', { text: '↓', cls: 'rules-button' });
         moveDownButton.onclick = async () => {
             if (index < this.plugin.settings.rules.length - 1) {
@@ -342,7 +335,7 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                 this.display();
             }
         };
-    
+
         const deleteButton = container.createEl('button', { cls: 'rules-button' });
         deleteButton.innerHTML = '🗑️';
         deleteButton.onclick = async () => {
@@ -379,7 +372,7 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
 
         const descriptionDiv = websiteDiv.createEl('div', { cls: 'website-description' });
         descriptionDiv.innerHTML = `
-            While Inbox Processor works on its own, it is part of a system called 
+            While this plugin works on its own, it is part of a system called 
             <a href="https://jots.life" target="_blank">JOTS</a> that helps capture, organize, 
             and visualize your life's details.
         `;

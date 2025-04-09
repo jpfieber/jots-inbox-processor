@@ -1,47 +1,25 @@
-/* Suggestion Dropdown */
-.suggestion-dropdown {
-    position: absolute;
-    z-index: 1000;
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 5px;
-    max-height: 200px;
-    overflow-y: auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-}
+/* Cleaned up styles for production */
 
-.suggestion-item {
-    padding: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    color: #333;
-}
-
-.suggestion-item:hover {
-    background-color: #f0f0f0;
-}
-
-/* Rules Table */
+/* Rules Table: Styles for the table displaying rules in the settings tab */
 .rules-table {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr auto; /* Define proportional column widths */
-    column-gap: 10px; /* Add consistent spacing between columns */
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    column-gap: 10px;
     margin-top: 20px;
-    width: 100%; /* Ensure the table fits within the container */
+    width: 100%;
 }
 
-/* Header Row */
+/* Rules Header: Styles for the header row of the rules table */
 .rules-header {
     font-weight: bold;
-    padding: 8px 10px; /* Add padding for spacing */
+    padding: 8px 10px;
     border-bottom: 2px solid #ccc;
     text-align: left;
 }
 
-/* Data Rows */
+/* Rules Row: Styles for each row in the rules table */
 .rules-row {
-    display: contents; /* Allow rows to use the same grid layout */
+    display: contents;
     border-bottom: 1px solid #eee;
 }
 
@@ -49,31 +27,31 @@
     border-bottom: none;
 }
 
-/* Column Cells */
+/* Rules Column: Styles for individual cells in the rules table */
 .rules-column {
-    padding: 8px 10px; /* Add padding for spacing */
+    padding: 8px 10px;
     font-size: 14px;
     text-align: left;
-    box-sizing: border-box; /* Ensure padding doesn't affect width */
-    overflow: hidden; /* Prevent content from overflowing */
-    white-space: nowrap; /* Prevent text from wrapping */
-    text-overflow: ellipsis; /* Add ellipsis for overflowing text */
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .rules-column input {
-    width: 100%; /* Ensure input boxes fit within their columns */
-    box-sizing: border-box; /* Include padding in width calculation */
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Controls Column */
+/* Rules Column Actions: Styles for the action buttons in the rules table */
 .rules-column-actions {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 5px; /* Add spacing between buttons */
+    gap: 5px;
 }
 
-/* Buttons */
+/* Rules Button: Styles for buttons in the rules table */
 .rules-button {
     padding: 5px 8px;
     font-size: 12px;
@@ -88,12 +66,11 @@
     background-color: #e0e0e0;
 }
 
-/* Website Section */
+/* Website Section: Styles for the section displaying website information */
 .website-section {
     display: flex;
     align-items: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 20px 0;
     padding: 0.5rem;
     opacity: 0.75;
 }
@@ -104,13 +81,14 @@
     margin-right: 15px;
 }
 
+/* Website Description: Styles for the text description in the website section */
 .website-description {
     font-size: 14px;
     line-height: 1.5;
     color: #555;
 }
 
-/* Buy Me a Coffee Section */
+/* Buy Me a Coffee Section: Styles for the donation section */
 .buy-me-a-coffee {
     margin-top: 20px;
     text-align: center;
@@ -119,4 +97,28 @@
 .buy-me-a-coffee img {
     height: 60px;
     width: 217px;
+}
+
+/* Suggestion Item: Styles for individual items in the dropdown suggestion list */
+.suggestion-item {
+    color: black;
+    padding: 2px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+/* Suggestion Dropdown: Styles for the dropdown container displaying suggestions */
+.suggestion-dropdown {
+    background-color: white;
+    position: absolute;
+    z-index: 1000;
+    border: 1px solid #ccc;
+    padding: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    width: auto;
 }
