@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: "18.x"
 
+      - name: Fix permissions for Vite
+        run: chmod +x node_modules/.bin/vite
+
       - name: Build plugin
         run: |
           npm install
