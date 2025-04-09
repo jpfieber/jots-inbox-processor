@@ -35,21 +35,19 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                 text.setPlaceholder('Enter folder name')
                     .setValue(this.plugin.settings.inboxFolder || '_Inbox')
                     .onChange(async (value) => {
-                        if (!this.isValidFolder(value)) {
-                            console.error('Inbox folder is empty or does not exist.');
-                            return;
-                        }
                         this.plugin.settings.inboxFolder = value;
                         await this.plugin.saveSettings();
                     });
-
-                new FolderInputSuggest(this.app, text.inputEl);
+    
+                // Ensure inputEl is initialized before passing it to FolderInputSuggest
+                setTimeout(() => {
+                    if (text.inputEl) {
+                        new FolderInputSuggest(this.app, text.inputEl);
+                    } else {
+                        console.error("Failed to initialize FolderInputSuggest: inputEl is undefined.");
+                    }
+                }, 0);
             });
-    }
-
-    private isValidFolder(folderPath: string): boolean {
-        const folder = this.app.vault.getAbstractFileByPath(folderPath);
-        return folder instanceof TFolder;
     }
 
     private addIntervalSetting(containerEl: HTMLElement) {
