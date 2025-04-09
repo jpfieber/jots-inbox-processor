@@ -21,6 +21,11 @@ jobs:
       - name: Fix permissions for Vite
         run: chmod +x node_modules/.bin/vite
 
+      - name: Debug environment
+        run: |
+          ls -l node_modules/.bin
+          cat node_modules/.bin/vite
+
       - name: Build plugin
         run: |
           npm install
