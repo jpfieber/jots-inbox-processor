@@ -38,10 +38,11 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                         this.plugin.settings.inboxFolder = value;
                         await this.plugin.saveSettings();
                     });
-    
+
                 // Ensure inputEl is initialized before passing it to FolderInputSuggest
                 setTimeout(() => {
                     if (text.inputEl) {
+                        console.log("Initializing FolderInputSuggest with:", text.inputEl);
                         new FolderInputSuggest(this.app, text.inputEl);
                     } else {
                         console.error("Failed to initialize FolderInputSuggest: inputEl is undefined.");
@@ -49,7 +50,7 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                 }, 0);
             });
     }
-    
+
     private addIntervalSetting(containerEl: HTMLElement) {
         new Setting(containerEl)
             .setName('Interval (seconds)')
@@ -77,16 +78,16 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
 
     private addRulesTable(containerEl: HTMLElement) {
         const table = containerEl.createEl('div', { cls: 'rules-table' });
-    
+
         // Header row
         ['Location', 'Structure', 'Extensions', 'Pattern', 'Controls'].forEach(header => {
             table.createEl('div', { text: header, cls: 'rules-header' });
         });
-    
+
         // Data rows
         this.plugin.settings.rules.forEach((rule: Rule, index: number) => {
             const row = table.createEl('div', { cls: 'rules-row' });
-    
+
             // Location column with folder suggestion
             const locationCell = row.createEl('div', { cls: 'rules-column' });
             const locationInput = locationCell.createEl('input', { type: 'text', value: rule.rootFolder });
@@ -94,7 +95,7 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                 this.plugin.settings.rules[index].rootFolder = locationInput.value;
                 await this.plugin.saveSettings();
             };
-    
+
             // Ensure inputEl is initialized before passing it to FolderInputSuggest
             setTimeout(() => {
                 if (locationInput) {
@@ -103,30 +104,30 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                     console.error("Failed to initialize FolderInputSuggest: inputEl is undefined.");
                 }
             }, 0);
-    
+
             // Other columns
             createInputField(row.createEl('div', { cls: 'rules-column' }), rule.folderStructure, async (newValue) => {
                 this.plugin.settings.rules[index].folderStructure = newValue;
                 await this.plugin.saveSettings();
             });
-    
+
             createInputField(row.createEl('div', { cls: 'rules-column' }), rule.fileExtensions, async (newValue) => {
                 this.plugin.settings.rules[index].fileExtensions = newValue;
                 await this.plugin.saveSettings();
             });
-    
+
             createInputField(row.createEl('div', { cls: 'rules-column' }), rule.regex, async (newValue) => {
                 this.plugin.settings.rules[index].regex = newValue;
                 await this.plugin.saveSettings();
             });
-    
+
             // Controls column
             const actionsCell = row.createEl('div', { cls: 'rules-column-actions' });
             createRuleActions(actionsCell, index, this.plugin);
-    
+
             table.appendChild(row);
         });
-    
+
         // Add Rule button
         const addRuleButton = containerEl.createEl('button', { text: 'Add Rule', cls: 'rules-add-button' });
         addRuleButton.onclick = async () => {
