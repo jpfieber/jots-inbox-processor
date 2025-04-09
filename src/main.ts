@@ -1,5 +1,6 @@
 import { Plugin, TFile } from 'obsidian';
-import { DEFAULT_SETTINGS, InboxProcessorSettings, InboxProcessorSettingTab } from './settings.js';
+import { InboxProcessorSettingTab } from './settings.js';
+import { DEFAULT_SETTINGS } from './settings-model.js';
 
 class InboxProcessorPlugin extends Plugin {
     settings;

@@ -147,8 +147,6 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
         const { containerEl } = this;
         containerEl.empty();
 
-        containerEl.createEl('h2', { text: 'Inbox Processor Settings' });
-
         this.addInboxFolderSetting(containerEl);
         this.addIntervalSetting(containerEl);
         this.addConvertExtensionsSetting(containerEl);
@@ -173,10 +171,15 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                         await this.plugin.saveSettings();
                     });
 
-                new FolderSuggest(this.app, text.inputEl, async (folder) => {
-                    this.plugin.settings.inboxFolder = folder;
-                    await this.plugin.saveSettings();
-                });
+                // Ensure inputEl is initialized before passing it to FolderInputSuggest
+                setTimeout(() => {
+                    if (text.inputEl) {
+                        console.log("Initializing FolderInputSuggest with:", text.inputEl);
+                        new FolderInputSuggest(this.app, text.inputEl);
+                    } else {
+                        console.error("Failed to initialize FolderInputSuggest: inputEl is undefined.");
+                    }
+                }, 0);
             });
     }
 
@@ -208,6 +211,7 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
     private addRulesTable(containerEl: HTMLElement) {
         const table = containerEl.createEl('div', { cls: 'rules-table' });
 
+
         // Header row
         table.createEl('div', { text: 'Location', cls: 'rules-header' });
         table.createEl('div', { text: 'Structure', cls: 'rules-header' });
@@ -218,6 +222,7 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
         // Data rows
         this.plugin.settings.rules.forEach((rule: Rule, index: number) => {
             const row = table.createEl('div', { cls: 'rules-row' });
+
 
             // Location column with folder suggestion
             const locationCell = row.createEl('div', { cls: 'rules-column' });
@@ -252,12 +257,14 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                 await this.plugin.saveSettings();
             });
 
+
             // Controls column
             const actionsCell = row.createEl('div', { cls: 'rules-column-actions' });
             this.createRuleActions(actionsCell, index);
 
             table.appendChild(row);
         });
+
 
         // Add Rule button
         const addRuleButton = containerEl.createEl('button', { text: 'Add Rule', cls: 'rules-add-button' });
@@ -347,12 +354,6 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
 
     private addWebsiteSection(containerEl: HTMLElement) {
         const websiteDiv = containerEl.createEl('div', { cls: 'website-section' });
-        websiteDiv.style.display = 'flex';
-        websiteDiv.style.alignItems = 'center';
-        websiteDiv.style.marginTop = '20px';
-        websiteDiv.style.marginBottom = '20px';
-        websiteDiv.style.padding = '0.5rem';
-        websiteDiv.style.opacity = '0.75';
 
         const logoLink = websiteDiv.createEl('a', {
             href: 'https://jots.life',
@@ -364,21 +365,17 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                 alt: 'JOTS Logo',
             },
         });
-        logoImg.style.width = '64px';
-        logoImg.style.height = '64px';
-        logoImg.style.marginRight = '15px';
+        logoImg.classList.add('logo-img');
 
         websiteDiv.appendChild(logoLink);
 
         const descriptionDiv = websiteDiv.createEl('div', { cls: 'website-description' });
         descriptionDiv.innerHTML = `
             While this plugin works on its own, it is part of a system called 
+            While this plugin works on its own, it is part of a system called 
             <a href="https://jots.life" target="_blank">JOTS</a> that helps capture, organize, 
             and visualize your life's details.
         `;
-        descriptionDiv.style.fontSize = '14px';
-        descriptionDiv.style.lineHeight = '1.5';
-        descriptionDiv.style.color = '#555';
 
         websiteDiv.appendChild(descriptionDiv);
         containerEl.appendChild(websiteDiv);
@@ -386,15 +383,12 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
 
     private addCoffeeSection(containerEl: HTMLElement) {
         const coffeeDiv = containerEl.createEl('div', { cls: 'buy-me-a-coffee' });
-        coffeeDiv.style.marginTop = '20px';
-        coffeeDiv.style.textAlign = 'center';
 
         coffeeDiv.innerHTML = `
             <a href="https://www.buymeacoffee.com/jpfieber" target="_blank">
                 <img 
                     src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
-                    alt="Buy Me A Coffee" 
-                    style="height: 60px; width: 217px;"
+                    alt="Buy Me A Coffee"
                 />
             </a>
         `;
