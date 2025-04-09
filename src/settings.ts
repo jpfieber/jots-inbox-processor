@@ -5,6 +5,7 @@ class FolderSuggest {
     private app: App;
     private inputEl: HTMLInputElement;
     private dropdown: HTMLDivElement | null = null;
+    private dropdownContent: HTMLDivElement | null = null;
     private allFolders: string[] = [];
     private onSelect: (folder: string) => void;
 
@@ -43,35 +44,52 @@ class FolderSuggest {
             this.dropdown.remove();
         }
 
+        // Create a container for position context
         this.dropdown = document.createElement('div');
-        this.dropdown.classList.add('suggestion-dropdown');
-        // Removed inline styles for dropdown and added CSS class
+        this.dropdown.classList.add('jots-suggestion-container');
 
+        // Create the actual dropdown content
+        this.dropdownContent = document.createElement('div');
+        this.dropdownContent.classList.add('jots-suggestion-dropdown');
+
+        // Get input position
         const rect = this.inputEl.getBoundingClientRect();
-        this.dropdown.style.top = `${rect.bottom + window.scrollY}px`;
-        this.dropdown.style.left = `${rect.left + window.scrollX}px`;
-        this.dropdown.style.width = `${rect.width}px`;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
 
+        // Position the dropdown below the input
+        this.dropdownContent.style.top = `${rect.bottom + scrollTop}px`;
+        this.dropdownContent.style.left = `${rect.left + scrollLeft}px`;
+        this.dropdownContent.style.minWidth = `${rect.width}px`;
+
+        this.dropdown.appendChild(this.dropdownContent);
         document.body.appendChild(this.dropdown);
 
         this.updateSuggestions();
     }
 
     private updateSuggestions() {
-        if (!this.dropdown) return;
+        if (!this.dropdown || !this.dropdownContent) return;
 
-        this.dropdown.innerHTML = '';
+        this.dropdownContent.innerHTML = '';
 
         const query = this.inputEl.value.toLowerCase();
         const filteredFolders = this.allFolders.filter(folder =>
             folder.toLowerCase().includes(query)
         );
 
+        if (filteredFolders.length === 0) {
+            const noResults = document.createElement('div');
+            noResults.classList.add('jots-suggestion-item');
+            noResults.textContent = 'No results';
+            this.dropdownContent.appendChild(noResults);
+            return;
+        }
+
         filteredFolders.forEach(folder => {
             const item = document.createElement('div');
-            item.classList.add('suggestion-item');
-            // Removed inline styles for suggestion items and added CSS class
-            item.textContent = folder; // Set the folder name as the text content of the suggestion item
+            item.classList.add('jots-suggestion-item');
+            item.textContent = folder;
 
             item.addEventListener('click', () => {
                 this.inputEl.value = folder;
@@ -79,30 +97,15 @@ class FolderSuggest {
                 this.hideSuggestions();
             });
 
-            item.addEventListener('mouseover', () => {
-                item.style.backgroundColor = '#f0f0f0';
-            });
-
-            item.addEventListener('mouseout', () => {
-                item.style.backgroundColor = 'white';
-            });
-
-            this.dropdown.appendChild(item);
+            this.dropdownContent?.appendChild(item);
         });
-
-        if (filteredFolders.length === 0) {
-            const noResults = document.createElement('div');
-            noResults.textContent = 'No results';
-            noResults.style.padding = '5px';
-            noResults.style.color = '#888';
-            this.dropdown.appendChild(noResults);
-        }
     }
 
     private hideSuggestions() {
         if (this.dropdown) {
             this.dropdown.remove();
             this.dropdown = null;
+            this.dropdownContent = null;
         }
     }
 }
@@ -147,6 +150,7 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
         const { containerEl } = this;
         containerEl.empty();
 
+        containerEl.createEl('h2', { text: 'Inbox Processor Settings' });
         this.addInboxFolderSetting(containerEl);
         this.addIntervalSetting(containerEl);
         this.addConvertExtensionsSetting(containerEl);
@@ -171,15 +175,10 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                         await this.plugin.saveSettings();
                     });
 
-                // Ensure inputEl is initialized before passing it to FolderInputSuggest
-                setTimeout(() => {
-                    if (text.inputEl) {
-                        console.log("Initializing FolderInputSuggest with:", text.inputEl);
-                        new FolderInputSuggest(this.app, text.inputEl);
-                    } else {
-                        console.error("Failed to initialize FolderInputSuggest: inputEl is undefined.");
-                    }
-                }, 0);
+                new FolderSuggest(this.app, text.inputEl, async (folder) => {
+                    this.plugin.settings.inboxFolder = folder;
+                    await this.plugin.saveSettings();
+                });
             });
     }
 
@@ -355,10 +354,10 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
     private addWebsiteSection(containerEl: HTMLElement) {
         const websiteDiv = containerEl.createEl('div', { cls: 'website-section' });
 
-        const logoLink = websiteDiv.createEl('a', {
-            href: 'https://jots.life',
-            target: '_blank',
-        });
+        const logoLink = websiteDiv.createEl('a');
+        logoLink.href = 'https://jots.life';
+        logoLink.setAttribute('target', '_blank');
+
         const logoImg = logoLink.createEl('img', {
             attr: {
                 src: 'https://jots.life/jots-logo-512/',
@@ -371,7 +370,6 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
 
         const descriptionDiv = websiteDiv.createEl('div', { cls: 'website-description' });
         descriptionDiv.innerHTML = `
-            While this plugin works on its own, it is part of a system called 
             While this plugin works on its own, it is part of a system called 
             <a href="https://jots.life" target="_blank">JOTS</a> that helps capture, organize, 
             and visualize your life's details.

@@ -1,4 +1,4 @@
-import { TFolder } from 'obsidian';
+import { App, TFolder } from 'obsidian';
 
 export class FolderSuggest {
     private app: App;
@@ -6,6 +6,7 @@ export class FolderSuggest {
     private dropdown: HTMLDivElement | null = null;
     private allFolders: string[] = [];
     private onSelect: (folder: string) => void;
+    private dropdownContent: HTMLDivElement | null = null;
 
     constructor(app: App, inputEl: HTMLInputElement, onSelect: (folder: string) => void) {
         this.app = app;
@@ -41,33 +42,47 @@ export class FolderSuggest {
         if (this.dropdown) {
             this.dropdown.remove();
         }
-    
+
+        // Create a container for position context
         this.dropdown = document.createElement('div');
-        this.dropdown.classList.add('suggestion-dropdown', 'dynamic');
-    
+        this.dropdown.classList.add('suggestion-container');
+
+        // Create the actual dropdown
+        this.dropdownContent = document.createElement('div');
+        this.dropdownContent.classList.add('suggestion-dropdown');
+
         const rect = this.inputEl.getBoundingClientRect();
-        this.dropdown.style.top = `${rect.bottom + window.scrollY}px`;
-        this.dropdown.style.left = `${rect.left + window.scrollX}px`;
-        this.dropdown.style.width = `${rect.width}px`;
-    
+        this.dropdownContent.style.top = `${rect.bottom + window.scrollY}px`;
+        this.dropdownContent.style.left = `${rect.left + window.scrollX}px`;
+        this.dropdownContent.style.width = `${rect.width}px`;
+
+        this.dropdown.appendChild(this.dropdownContent);
         document.body.appendChild(this.dropdown);
-    
+
         this.updateSuggestions();
     }
 
     private updateSuggestions() {
-        if (!this.dropdown) return;
+        if (!this.dropdown || !this.dropdownContent) return;
 
-        this.dropdown.innerHTML = '';
+        this.dropdownContent.innerHTML = '';
 
         const query = this.inputEl.value.toLowerCase();
         const filteredFolders = this.allFolders.filter(folder =>
             folder.toLowerCase().includes(query)
         );
 
+        if (filteredFolders.length === 0) {
+            const noResults = document.createElement('div');
+            noResults.classList.add('suggestion-item');
+            noResults.textContent = 'No results';
+            this.dropdownContent.appendChild(noResults);
+            return;
+        }
+
         filteredFolders.forEach(folder => {
             const item = document.createElement('div');
-            item.classList.add('suggestion-item'); // Use CSS class for styling
+            item.classList.add('suggestion-item');
             item.textContent = folder;
 
             item.addEventListener('click', () => {
@@ -76,15 +91,10 @@ export class FolderSuggest {
                 this.hideSuggestions();
             });
 
-            this.dropdown.appendChild(item);
+            if (this.dropdownContent) {
+                this.dropdownContent.appendChild(item);
+            }
         });
-
-        if (filteredFolders.length === 0) {
-            const noResults = document.createElement('div');
-            noResults.classList.add('no-results'); // Use CSS class for "No results" styling
-            noResults.textContent = 'No results';
-            this.dropdown.appendChild(noResults);
-        }
     }
 
     private hideSuggestions() {

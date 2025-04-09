@@ -5,10 +5,7 @@
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr auto;
     column-gap: 10px;
-    grid-template-columns: 2fr 1fr 1fr 1fr auto;
-    column-gap: 10px;
     margin-top: 20px;
-    width: 100%;
     width: 100%;
 }
 
@@ -16,14 +13,12 @@
 .rules-header {
     font-weight: bold;
     padding: 8px 10px;
-    padding: 8px 10px;
     border-bottom: 2px solid #ccc;
     text-align: left;
 }
 
 /* Rules Row: Styles for each row in the rules table */
 .rules-row {
-    display: contents;
     display: contents;
     border-bottom: 1px solid #eee;
 }
@@ -35,13 +30,8 @@
 /* Rules Column: Styles for individual cells in the rules table */
 .rules-column {
     padding: 8px 10px;
-    padding: 8px 10px;
     font-size: 14px;
     text-align: left;
-    box-sizing: border-box;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     box-sizing: border-box;
     overflow: hidden;
     white-space: nowrap;
@@ -51,8 +41,6 @@
 .rules-column input {
     width: 100%;
     box-sizing: border-box;
-    width: 100%;
-    box-sizing: border-box;
 }
 
 /* Rules Column Actions: Styles for the action buttons in the rules table */
@@ -60,7 +48,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 5px;
     gap: 5px;
 }
 
@@ -83,7 +70,6 @@
 .website-section {
     display: flex;
     align-items: center;
-    margin: 20px 0;
     margin: 20px 0;
     padding: 0.5rem;
     opacity: 0.75;
@@ -113,26 +99,36 @@
     width: 217px;
 }
 
-/* Suggestion Item: Styles for individual items in the dropdown suggestion list */
-.suggestion-item {
-    color: black;
-    padding: 2px;
-    cursor: pointer;
-    font-size: 12px;
-}
-
-.suggestion-item:hover {
-    background-color: #f0f0f0;
-}
-
-/* Suggestion Dropdown: Styles for the dropdown container displaying suggestions */
-.suggestion-dropdown {
-    background-color: white;
+/* Suggestion Dropdown: Styles for the dropdown container */
+.jots-suggestion-container {
     position: absolute;
-    z-index: 1000;
-    border: 1px solid #ccc;
+    z-index: 9999;
+    width: 100%;
+    height: 0;
+    pointer-events: none;
+}
+
+.jots-suggestion-dropdown {
+    background-color: var(--background-primary);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
     padding: 5px;
     max-height: 200px;
     overflow-y: auto;
-    width: auto;
+    position: fixed;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    pointer-events: auto;
+}
+
+/* Suggestion Item: Styles for individual items */
+.jots-suggestion-item {
+    padding: 2px 8px;
+    cursor: pointer;
+    color: var(--text-normal);
+    border-radius: 2px;
+    font-size: 12px;
+}
+
+.jots-suggestion-item:hover {
+    background-color: var(--background-modifier-hover);
 }
