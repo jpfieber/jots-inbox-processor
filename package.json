@@ -5,7 +5,7 @@
   "main": "dist/main.js",
   "module": "dist/main.js",
   "scripts": {
-    "build": "node node_modules/vite/bin/vite.js build"
+    "build": "vite build"
   },
   "keywords": [
     "obsidian",
@@ -26,7 +26,7 @@
     "rollup": "^4.36.0",
     "rollup-plugin-copy": "^3.5.0",
     "typescript": "^4.9.5",
-    "vite": "^6.2.5"
+    "vite": "^4.5.2"
   },
   "files": [
     "dist",

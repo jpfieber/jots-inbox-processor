@@ -18,11 +18,13 @@ jobs:
         with:
           node-version: "18.x"
 
-      - name: Install dependencies
-        run: npm install
+      - name: Clean install dependencies
+        run: |
+          rm -rf node_modules package-lock.json
+          npm install
 
       - name: Build plugin
-        run: node node_modules/vite/bin/vite.js build
+        run: npm run build
 
       - name: Create release
         env:
