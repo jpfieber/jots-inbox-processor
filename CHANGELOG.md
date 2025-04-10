@@ -1,11 +1,7 @@
 # Changelog
 All notable changes to this plugin will be documented in this file.
 
-## 1.1.7 (2025-04-10)
-
-    - Fixed broken release config
-    
-## 1.1.6 (2025-04-10)
+## 1.1.8 (2025-04-10)
 
     - Removed main.js from the repo and added to .gitignore
     - Moved JavaScript assigned styles to CSS
