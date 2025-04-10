@@ -1,6 +1,6 @@
 {
   "name": "jots-inbox-processor",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "A plugin to process files from an 'Inbox' at a set interval.",
   "main": "dist/main.js",
   "module": "dist/main.js",

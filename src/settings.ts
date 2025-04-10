@@ -41,7 +41,6 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
         const { containerEl } = this;
         containerEl.empty();
 
-        containerEl.createEl('h2', { text: 'Inbox Processor Settings' });
         this.addInboxFolderSetting(containerEl);
         this.addIntervalSetting(containerEl);
         this.addConvertExtensionsSetting(containerEl);
