@@ -353,44 +353,45 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
 
     private addWebsiteSection(containerEl: HTMLElement) {
         const websiteDiv = containerEl.createEl('div', { cls: 'website-section' });
-
-        const logoLink = websiteDiv.createEl('a');
-        logoLink.href = 'https://jots.life';
-        logoLink.setAttribute('target', '_blank');
-
-        const logoImg = logoLink.createEl('img', {
+        
+        const logoLink = websiteDiv.createEl('a', {
+            href: 'https://jots.life',
+            target: '_blank',
+        });
+        
+        logoLink.createEl('img', {
             attr: {
                 src: 'https://jots.life/jots-logo-512/',
                 alt: 'JOTS Logo',
             },
         });
-        logoImg.classList.add('logo-img');
-
-        websiteDiv.appendChild(logoLink);
 
         const descriptionDiv = websiteDiv.createEl('div', { cls: 'website-description' });
-        descriptionDiv.innerHTML = `
-            While this plugin works on its own, it is part of a system called 
-            <a href="https://jots.life" target="_blank">JOTS</a> that helps capture, organize, 
-            and visualize your life's details.
-        `;
-
-        websiteDiv.appendChild(descriptionDiv);
-        containerEl.appendChild(websiteDiv);
+        
+        // Create text nodes and links using createEl
+        descriptionDiv.appendText('While this plugin works on its own, it is part of a system called ');
+        descriptionDiv.createEl('a', {
+            text: 'JOTS',
+            href: 'https://jots.life',
+            target: '_blank'
+        });
+        descriptionDiv.appendText(' that helps capture, organize, and visualize your life\'s details.');
     }
 
     private addCoffeeSection(containerEl: HTMLElement) {
         const coffeeDiv = containerEl.createEl('div', { cls: 'buy-me-a-coffee' });
+        
+        const coffeeLink = coffeeDiv.createEl('a', {
+            href: 'https://www.buymeacoffee.com/jpfieber',
+            target: '_blank'
+        });
 
-        coffeeDiv.innerHTML = `
-            <a href="https://www.buymeacoffee.com/jpfieber" target="_blank">
-                <img 
-                    src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
-                    alt="Buy Me A Coffee"
-                />
-            </a>
-        `;
-
-        containerEl.appendChild(coffeeDiv);
+        coffeeLink.createEl('img', {
+            attr: {
+                src: 'https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png',
+                alt: 'Buy Me A Coffee'
+            },
+            cls: 'bmc-button'
+        });
     }
 }
