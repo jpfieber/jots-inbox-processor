@@ -1,10 +1,10 @@
 # Changelog
 All notable changes to this plugin will be documented in this file.
 
-## 1.1.11 (2025-04-10)
+## 1.1.12 (2025-04-10)
 
     - Optimized Load Time
-    
+
 ## 1.1.10 (2025-04-10)
 
     - Removed main.js from the repo and added to .gitignore

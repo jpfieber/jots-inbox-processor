@@ -9,6 +9,12 @@ export default defineConfig({
     },
     rollupOptions: {
       external: ['obsidian'], // Mark 'obsidian' as an external dependency
+      output: {
+        chunkFileNames: '[name].js',
+        manualChunks: {
+          settings: ['./src/settings.ts']
+        }
+      }
     },
     outDir: 'dist', // Output directory
     emptyOutDir: true, // Clean the output directory before building

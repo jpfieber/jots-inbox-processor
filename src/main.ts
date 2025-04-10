@@ -9,8 +9,8 @@ class InboxProcessorPlugin extends Plugin {
         console.log('Inbox Processor: Loading plugin');
         await this.loadSettings();
 
-        // Defer loading of settings tab
-        const { InboxProcessorSettingTab } = await import('./settings.js');
+        // Load settings tab dynamically from the 'settings' chunk
+        const { InboxProcessorSettingTab } = await import(/* @vite-ignore */ './settings.js');
         this.addSettingTab(new InboxProcessorSettingTab(this.app, this));
 
         const interval = this.getInterval();
