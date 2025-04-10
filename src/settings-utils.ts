@@ -28,8 +28,7 @@ export function createRuleActions(container: HTMLElement, index: number, plugin:
         }
     };
 
-    const deleteButton = container.createEl('button', { cls: 'rules-button' });
-    deleteButton.innerHTML = '🗑️';
+    const deleteButton = container.createEl('button', { text: '🗑️', cls: 'rules-button' });
     deleteButton.onclick = async () => {
         plugin.settings.rules.splice(index, 1);
         await plugin.saveSettings();

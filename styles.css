@@ -43,6 +43,11 @@
     box-sizing: border-box;
 }
 
+.rules-column .setting-item {
+    border: none;
+    padding: 0;
+}
+
 /* Rules Column Actions: Styles for the action buttons in the rules table */
 .rules-column-actions {
     display: flex;

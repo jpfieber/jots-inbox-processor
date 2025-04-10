@@ -1,114 +1,5 @@
-import { App, PluginSettingTab, Setting, TFolder } from 'obsidian';
-
-// FolderSuggest class for folder suggestions
-class FolderSuggest {
-    private app: App;
-    private inputEl: HTMLInputElement;
-    private dropdown: HTMLDivElement | null = null;
-    private dropdownContent: HTMLDivElement | null = null;
-    private allFolders: string[] = [];
-    private onSelect: (folder: string) => void;
-
-    constructor(app: App, inputEl: HTMLInputElement, onSelect: (folder: string) => void) {
-        this.app = app;
-        this.inputEl = inputEl;
-        this.onSelect = onSelect;
-
-        this.allFolders = this.getFolders();
-
-        this.inputEl.addEventListener('focus', () => this.showSuggestions());
-        this.inputEl.addEventListener('input', () => this.updateSuggestions());
-        this.inputEl.addEventListener('blur', () => {
-            setTimeout(() => this.hideSuggestions(), 200);
-        });
-    }
-
-    private getFolders(): string[] {
-        const folders: string[] = [];
-        const rootFolder = this.app.vault.getRoot();
-        this.collectFolders(rootFolder, folders);
-        return folders;
-    }
-
-    private collectFolders(folder: TFolder, folders: string[]) {
-        folders.push(folder.path);
-        for (const child of folder.children) {
-            if (child instanceof TFolder) {
-                this.collectFolders(child, folders);
-            }
-        }
-    }
-
-    private showSuggestions() {
-        if (this.dropdown) {
-            this.dropdown.remove();
-        }
-
-        // Create a container for position context
-        this.dropdown = document.createElement('div');
-        this.dropdown.classList.add('jots-suggestion-container');
-
-        // Create the actual dropdown content
-        this.dropdownContent = document.createElement('div');
-        this.dropdownContent.classList.add('jots-suggestion-dropdown');
-
-        // Get input position
-        const rect = this.inputEl.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-
-        // Position the dropdown below the input
-        this.dropdownContent.style.top = `${rect.bottom + scrollTop}px`;
-        this.dropdownContent.style.left = `${rect.left + scrollLeft}px`;
-        this.dropdownContent.style.minWidth = `${rect.width}px`;
-
-        this.dropdown.appendChild(this.dropdownContent);
-        document.body.appendChild(this.dropdown);
-
-        this.updateSuggestions();
-    }
-
-    private updateSuggestions() {
-        if (!this.dropdown || !this.dropdownContent) return;
-
-        this.dropdownContent.innerHTML = '';
-
-        const query = this.inputEl.value.toLowerCase();
-        const filteredFolders = this.allFolders.filter(folder =>
-            folder.toLowerCase().includes(query)
-        );
-
-        if (filteredFolders.length === 0) {
-            const noResults = document.createElement('div');
-            noResults.classList.add('jots-suggestion-item');
-            noResults.textContent = 'No results';
-            this.dropdownContent.appendChild(noResults);
-            return;
-        }
-
-        filteredFolders.forEach(folder => {
-            const item = document.createElement('div');
-            item.classList.add('jots-suggestion-item');
-            item.textContent = folder;
-
-            item.addEventListener('click', () => {
-                this.inputEl.value = folder;
-                this.onSelect(folder);
-                this.hideSuggestions();
-            });
-
-            this.dropdownContent?.appendChild(item);
-        });
-    }
-
-    private hideSuggestions() {
-        if (this.dropdown) {
-            this.dropdown.remove();
-            this.dropdown = null;
-            this.dropdownContent = null;
-        }
-    }
-}
+import { App, PluginSettingTab, Setting } from 'obsidian';
+import { FolderSuggest } from './foldersuggester';
 
 export interface Rule {
     regex: string;
@@ -167,18 +58,18 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
         new Setting(containerEl)
             .setName('Inbox Folder')
             .setDesc('Set the location of the inbox folder.')
-            .addText(text => {
-                text.setPlaceholder('Enter folder name')
+            .addSearch((cb) => {
+                new FolderSuggest(this.app, cb.inputEl);
+                cb.setPlaceholder("Example: _Inbox")
                     .setValue(this.plugin.settings.inboxFolder || '_Inbox')
-                    .onChange(async (value) => {
-                        this.plugin.settings.inboxFolder = value;
+                    .onChange(async (new_folder) => {
+                        // Trim folder and strip ending slash
+                        new_folder = new_folder.trim()
+                        new_folder = new_folder.replace(/\/$/, "");
+
+                        this.plugin.settings.inboxFolder = new_folder;
                         await this.plugin.saveSettings();
                     });
-
-                new FolderSuggest(this.app, text.inputEl, async (folder) => {
-                    this.plugin.settings.inboxFolder = folder;
-                    await this.plugin.saveSettings();
-                });
             });
     }
 
@@ -222,18 +113,19 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
         this.plugin.settings.rules.forEach((rule: Rule, index: number) => {
             const row = table.createEl('div', { cls: 'rules-row' });
 
-
             // Location column with folder suggestion
             const locationCell = row.createEl('div', { cls: 'rules-column' });
-            const locationInput = locationCell.createEl('input', { type: 'text', value: rule.rootFolder });
-            locationInput.onchange = async () => {
-                this.plugin.settings.rules[index].rootFolder = locationInput.value;
-                await this.plugin.saveSettings();
-            };
-            new FolderSuggest(this.app, locationInput, async (folder) => {
-                this.plugin.settings.rules[index].rootFolder = folder;
-                await this.plugin.saveSettings();
-            });
+            const locationSearch = new Setting(locationCell)
+                .addSearch((cb) => {
+                    new FolderSuggest(this.app, cb.inputEl);
+                    cb.setPlaceholder("Enter folder path")
+                        .setValue(rule.rootFolder)
+                        .onChange(async (new_folder) => {
+                            new_folder = new_folder.trim().replace(/\/$/, "");
+                            this.plugin.settings.rules[index].rootFolder = new_folder;
+                            await this.plugin.saveSettings();
+                        });
+                });
 
             // Structure column
             const structureCell = row.createEl('div', { cls: 'rules-column' });
@@ -278,15 +170,17 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
         const row = table.createEl('div', { cls: 'rules-row' });
 
         const locationCell = row.createEl('div', { cls: 'rules-column' });
-        const locationInput = locationCell.createEl('input', { type: 'text', value: rule.rootFolder });
-        locationInput.onchange = async () => {
-            this.plugin.settings.rules[index].rootFolder = locationInput.value;
-            await this.plugin.saveSettings();
-        };
-        new FolderSuggest(this.app, locationInput, async (folder) => {
-            this.plugin.settings.rules[index].rootFolder = folder;
-            await this.plugin.saveSettings();
-        });
+        const locationSearch = new Setting(locationCell)
+            .addSearch((cb) => {
+                new FolderSuggest(this.app, cb.inputEl);
+                cb.setPlaceholder("Enter folder path")
+                    .setValue(rule.rootFolder)
+                    .onChange(async (new_folder) => {
+                        new_folder = new_folder.trim().replace(/\/$/, "");
+                        this.plugin.settings.rules[index].rootFolder = new_folder;
+                        await this.plugin.saveSettings();
+                    });
+            });
 
         const folderStructureCell = row.createEl('div', { cls: 'rules-column' });
         this.createInputField(folderStructureCell, rule.folderStructure, async (newValue) => {
@@ -342,8 +236,7 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
             }
         };
 
-        const deleteButton = container.createEl('button', { cls: 'rules-button' });
-        deleteButton.innerHTML = '🗑️';
+        const deleteButton = container.createEl('button', { text: '🗑️', cls: 'rules-button' });
         deleteButton.onclick = async () => {
             this.plugin.settings.rules.splice(index, 1);
             await this.plugin.saveSettings();
@@ -353,12 +246,10 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
 
     private addWebsiteSection(containerEl: HTMLElement) {
         const websiteDiv = containerEl.createEl('div', { cls: 'website-section' });
-        
-        const logoLink = websiteDiv.createEl('a', {
-            href: 'https://jots.life',
-            target: '_blank',
-        });
-        
+
+        const logoLink = websiteDiv.createEl('a', { href: 'https://jots.life' });
+        logoLink.setAttribute('target', '_blank');
+
         logoLink.createEl('img', {
             attr: {
                 src: 'https://jots.life/jots-logo-512/',
@@ -367,24 +258,23 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
         });
 
         const descriptionDiv = websiteDiv.createEl('div', { cls: 'website-description' });
-        
-        // Create text nodes and links using createEl
+
         descriptionDiv.appendText('While this plugin works on its own, it is part of a system called ');
-        descriptionDiv.createEl('a', {
+        const jotsLink = descriptionDiv.createEl('a', {
             text: 'JOTS',
-            href: 'https://jots.life',
-            target: '_blank'
+            href: 'https://jots.life'
         });
+        jotsLink.setAttribute('target', '_blank');
         descriptionDiv.appendText(' that helps capture, organize, and visualize your life\'s details.');
     }
 
     private addCoffeeSection(containerEl: HTMLElement) {
         const coffeeDiv = containerEl.createEl('div', { cls: 'buy-me-a-coffee' });
-        
+
         const coffeeLink = coffeeDiv.createEl('a', {
-            href: 'https://www.buymeacoffee.com/jpfieber',
-            target: '_blank'
+            href: 'https://www.buymeacoffee.com/jpfieber'
         });
+        coffeeLink.setAttribute('target', '_blank');
 
         coffeeLink.createEl('img', {
             attr: {
