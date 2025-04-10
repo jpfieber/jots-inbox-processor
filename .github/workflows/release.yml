@@ -26,6 +26,10 @@ jobs:
       - name: Build plugin
         run: npm run build
 
+      - name: Copy files to root
+        run: |
+          cp dist/main.js .
+
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
