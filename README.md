@@ -4,8 +4,6 @@ Automate moving files from your Inbox
 
 I have many ways of getting content into my Obsidian vault, and the most basic is to dump it into my "Inbox". My Inbox is a temporary holding space where I put content that needs to be evaluated before it moves on to it's eventual home.  **Inbox Processor** is a tool to help automate some of that evaluation.  By providing configurable Rules, you can have some files automatially moved elsewhere based on naming patterns and file types.
 
-<a href="https://www.buymeacoffee.com/jpfieber" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="60"></a>
-
 ## Settings
 
 Inbox Processor needs a few simple settings:
