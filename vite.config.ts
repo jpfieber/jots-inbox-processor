@@ -17,9 +17,6 @@ export default defineConfig(async () => ({
       output: {
         format: 'cjs',
         chunkFileNames: '[name].js',
-        assetFileNames: (assetInfo) => {
-          return 'assets/[name][extname]';
-        }
       }
     },
     outDir: 'dist',
