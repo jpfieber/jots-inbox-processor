@@ -4,7 +4,7 @@ import { DEFAULT_SETTINGS, InboxProcessorSettings, Rule } from './settings-model
 
 class InboxProcessorPlugin extends Plugin {
     settings!: InboxProcessorSettings;  // Use definite assignment assertion
-    private interval: NodeJS.Timeout | undefined;
+    private interval: number | undefined;
 
     async onload() {
         console.log('Inbox Processor: Loading plugin');
@@ -13,14 +13,12 @@ class InboxProcessorPlugin extends Plugin {
 
         const interval = this.getInterval();
         if (interval !== null) {
-            this.registerInterval(
-                window.setInterval(() => this.processInbox(), interval)
-            );
+            this.interval = window.setTimeout(() => this.processInbox(), interval);
         }
 
         this.addCommand({
             id: 'process-inbox-manually',
-            name: 'Process Inbox Manually',
+            name: 'Process inbox manually',
             callback: () => this.processInbox()
         });
     }
@@ -28,7 +26,7 @@ class InboxProcessorPlugin extends Plugin {
     onunload() {
         console.log('Inbox Processor: Unloading plugin');
         if (this.interval) {
-            clearInterval(this.interval);
+            window.clearTimeout(this.interval);
         }
     }
 
@@ -141,10 +139,10 @@ class InboxProcessorPlugin extends Plugin {
         const targetPath = `${rootFolder}/${folderStructure.replace(/YYYY/g, formattedYear).replace(/YY/g, shortYear).replace(/M{1,4}/, formattedMonth)}`;
 
         const folderExists = this.app.vault.getAbstractFileByPath(targetPath);
-        if (!folderExists) {
+        if (!folderExists || !(folderExists instanceof TFolder)) {
             await this.app.vault.createFolder(targetPath);
         }
-
+        
         const targetFilePath = `${targetPath}/${file.name}`;
         const fileExists = await this.app.vault.adapter.exists(targetFilePath);
 

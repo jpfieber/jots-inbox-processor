@@ -3,13 +3,17 @@
   "name": "Inbox Processor",
   "version": "1.1.10",
   "minAppVersion": "1.0.0",
-  "description": "Automate moving files from your Obsidian Inbox.",
+  "description": "Automate moving files from your Inbox.",
   "author": "Joseph Fieber",
   "authorUrl": "https://jots.life",
   "fundingUrl": {
     "Buy Me a Coffee": "https://www.buymeacoffee.com/jpfieber",
-		"GitHub Sponsors": "https://github.com/sponsors/jpfieber",
-		"PayPal": "https://www.paypal.biz/jpfieber"
-	},
-  "isDesktopOnly": false
+    "GitHub Sponsors": "https://github.com/sponsors/jpfieber",
+    "PayPal": "https://www.paypal.biz/jpfieber"
+  },
+  "isDesktopOnly": false,
+  "resources": [
+    "assets/jots-logo.png",
+    "assets/bmc-button.png"
+  ]
 }

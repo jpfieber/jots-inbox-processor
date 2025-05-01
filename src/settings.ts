@@ -41,38 +41,22 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
         const { containerEl } = this;
         containerEl.empty();
 
-        this.addInboxFolderSetting(containerEl);
-        this.addIntervalSetting(containerEl);
-        this.addConvertExtensionsSetting(containerEl);
-
-        containerEl.createEl('h3', { text: 'Rules' });
-        this.addRulesTable(containerEl);
-
-        containerEl.createEl('hr');
-        this.addWebsiteSection(containerEl);
-        this.addCoffeeSection(containerEl);
-    }
-
-    private addInboxFolderSetting(containerEl: HTMLElement) {
+        // Inbox folder setting
         new Setting(containerEl)
-            .setName('Inbox Folder')
+            .setName('Inbox folder')
             .setDesc('Set the location of the inbox folder.')
             .addSearch((cb) => {
                 new FolderSuggest(this.app, cb.inputEl);
                 cb.setPlaceholder("Example: _Inbox")
                     .setValue(this.plugin.settings.inboxFolder || '_Inbox')
                     .onChange(async (new_folder) => {
-                        // Trim folder and strip ending slash
-                        new_folder = new_folder.trim()
-                        new_folder = new_folder.replace(/\/$/, "");
-
+                        new_folder = new_folder.trim().replace(/\/$/, "");
                         this.plugin.settings.inboxFolder = new_folder;
                         await this.plugin.saveSettings();
                     });
             });
-    }
 
-    private addIntervalSetting(containerEl: HTMLElement) {
+        // Interval setting
         new Setting(containerEl)
             .setName('Interval (seconds)')
             .setDesc('Set the interval for processing the inbox folder. Leave empty to disable automatic processing.')
@@ -83,11 +67,10 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                     this.plugin.settings.interval = value ? parseInt(value) : null;
                     await this.plugin.saveSettings();
                 }));
-    }
 
-    private addConvertExtensionsSetting(containerEl: HTMLElement) {
+        // Convert extensions setting
         new Setting(containerEl)
-            .setName('Convert Extensions to Lowercase')
+            .setName('Convert extensions to lowercase')
             .setDesc('Enable this to convert uppercase file extensions to lowercase.')
             .addToggle(toggle => toggle
                 .setValue(this.plugin.settings.convertExtensionsToLowercase)
@@ -95,11 +78,19 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                     this.plugin.settings.convertExtensionsToLowercase = value;
                     await this.plugin.saveSettings();
                 }));
+
+        // Rules section
+        new Setting(containerEl).setName('Rules').setHeading();
+        this.addRulesTable(containerEl);
+
+        // Support section
+        new Setting(containerEl).setName('Support').setHeading();
+        this.addWebsiteSection(containerEl);
+        this.addCoffeeSection(containerEl);
     }
 
     private addRulesTable(containerEl: HTMLElement) {
         const table = containerEl.createEl('div', { cls: 'rules-table' });
-
 
         // Header row
         table.createEl('div', { text: 'Location', cls: 'rules-header' });
@@ -114,7 +105,7 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
 
             // Location column with folder suggestion
             const locationCell = row.createEl('div', { cls: 'rules-column' });
-            const locationSearch = new Setting(locationCell)
+            new Setting(locationCell)
                 .addSearch((cb) => {
                     new FolderSuggest(this.app, cb.inputEl);
                     cb.setPlaceholder("Enter folder path")
@@ -147,62 +138,18 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
                 await this.plugin.saveSettings();
             });
 
-
             // Controls column
             const actionsCell = row.createEl('div', { cls: 'rules-column-actions' });
             this.createRuleActions(actionsCell, index);
-
-            table.appendChild(row);
         });
 
-
         // Add Rule button
-        const addRuleButton = containerEl.createEl('button', { text: 'Add Rule', cls: 'rules-add-button' });
+        const addRuleButton = containerEl.createEl('button', { text: 'Add rule', cls: 'rules-add-button' });
         addRuleButton.onclick = async () => {
             this.plugin.settings.rules.push({ regex: '', fileExtensions: '', rootFolder: '', folderStructure: '' });
             await this.plugin.saveSettings();
             this.display();
         };
-    }
-
-    private createRuleRow(table: HTMLElement, rule: Rule, index: number) {
-        const row = table.createEl('div', { cls: 'rules-row' });
-
-        const locationCell = row.createEl('div', { cls: 'rules-column' });
-        const locationSearch = new Setting(locationCell)
-            .addSearch((cb) => {
-                new FolderSuggest(this.app, cb.inputEl);
-                cb.setPlaceholder("Enter folder path")
-                    .setValue(rule.rootFolder)
-                    .onChange(async (new_folder) => {
-                        new_folder = new_folder.trim().replace(/\/$/, "");
-                        this.plugin.settings.rules[index].rootFolder = new_folder;
-                        await this.plugin.saveSettings();
-                    });
-            });
-
-        const folderStructureCell = row.createEl('div', { cls: 'rules-column' });
-        this.createInputField(folderStructureCell, rule.folderStructure, async (newValue) => {
-            this.plugin.settings.rules[index].folderStructure = newValue;
-            await this.plugin.saveSettings();
-        });
-
-        const extensionsCell = row.createEl('div', { cls: 'rules-column' });
-        this.createInputField(extensionsCell, rule.fileExtensions, async (newValue) => {
-            this.plugin.settings.rules[index].fileExtensions = newValue;
-            await this.plugin.saveSettings();
-        });
-
-        const regexCell = row.createEl('div', { cls: 'rules-column' });
-        this.createInputField(regexCell, rule.regex, async (newValue) => {
-            this.plugin.settings.rules[index].regex = newValue;
-            await this.plugin.saveSettings();
-        });
-
-        const actionsCell = row.createEl('div', { cls: 'rules-column-actions' });
-        this.createRuleActions(actionsCell, index);
-
-        table.appendChild(row);
     }
 
     private createInputField(container: HTMLElement, value: string, onChange: (newValue: string) => Promise<void>) {
@@ -251,7 +198,7 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
 
         logoLink.createEl('img', {
             attr: {
-                src: 'https://jots.life/jots-logo-512/',
+                src: 'assets/jots-logo.png',
                 alt: 'JOTS Logo',
             },
         });
@@ -277,7 +224,7 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
 
         coffeeLink.createEl('img', {
             attr: {
-                src: 'https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png',
+                src: 'assets/bmc-button.png',
                 alt: 'Buy Me A Coffee'
             },
             cls: 'bmc-button'

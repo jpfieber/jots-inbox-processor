@@ -1,10 +1,7 @@
-// Credits go to Liam's Periodic Notes Plugin: https://github.com/liamcain/obsidian-periodic-notes
+import { App, TAbstractFile, TFolder, AbstractInputSuggest } from "obsidian";
 
-import { App, TAbstractFile, TFolder } from "obsidian";
-import { TextInputSuggest } from "./suggest";
-
-export class FolderSuggest extends TextInputSuggest<TFolder> {
-    constructor(app: App, inputEl: HTMLInputElement | HTMLTextAreaElement) {
+export class FolderSuggest extends AbstractInputSuggest<TFolder> {
+    constructor(app: App, inputEl: HTMLInputElement) {
         super(app, inputEl);
     }
 
@@ -25,13 +22,16 @@ export class FolderSuggest extends TextInputSuggest<TFolder> {
         return folders.slice(0, 1000);
     }
 
-    renderSuggestion(file: TFolder, el: HTMLElement): void {
-        el.setText(file.path);
+    renderSuggestion(folder: TFolder, el: HTMLElement): void {
+        el.setText(folder.path);
     }
 
-    selectSuggestion(file: TFolder): void {
-        this.inputEl.value = file.path;
-        this.inputEl.trigger("input");
+    selectSuggestion(folder: TFolder, evt: MouseEvent | KeyboardEvent): void {
+        const input = evt.target as HTMLInputElement;
+        if (input) {
+            input.value = folder.path;
+            input.dispatchEvent(new Event('input'));
+        }
         this.close();
     }
 }
