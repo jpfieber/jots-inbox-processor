@@ -1,11 +1,11 @@
 {
   "name": "jots-inbox-processor",
-  "version": "1.1.13",
+  "version": "1.1.14",
   "description": "A plugin to process files from an 'Inbox' at a set interval.",
   "main": "dist/main.js",
   "module": "dist/main.js",
   "scripts": {
-    "build": "node --no-warnings ./node_modules/vite/bin/vite.js build && copy src\\styles.css dist\\styles.css"
+    "build": "node --no-warnings ./node_modules/vite/bin/vite.js build && node --input-type=module -e \"import { copyFileSync } from 'fs'; copyFileSync('src/styles.css', 'dist/styles.css');\""
   },
   "keywords": [
     "obsidian",

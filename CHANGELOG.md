@@ -1,10 +1,10 @@
 # Changelog
 All notable changes to this plugin will be documented in this file.
 
-## 1.1.13 (2025-05-01)
+## 1.1.14 (2025-05-01)
 
     - Applied suggestions for release to community plugins
-    
+
 ## 1.1.12 (2025-04-10)
 
     - Optimized Load Time
