@@ -1,7 +1,7 @@
 {
   "id": "jots-inbox-processor",
   "name": "Inbox Processor",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "minAppVersion": "1.0.0",
   "description": "Automate moving files from your Inbox.",
   "author": "Joseph Fieber",
@@ -11,9 +11,5 @@
     "GitHub Sponsors": "https://github.com/sponsors/jpfieber",
     "PayPal": "https://www.paypal.biz/jpfieber"
   },
-  "isDesktopOnly": false,
-  "resources": [
-    "assets/jots-logo.png",
-    "assets/bmc-button.png"
-  ]
+  "isDesktopOnly": false
 }

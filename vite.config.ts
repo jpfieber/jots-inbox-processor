@@ -1,30 +1,26 @@
 import { defineConfig } from 'vite';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export default defineConfig({
   build: {
     lib: {
-      entry: './src/main.ts', // Path to your main plugin file
-      formats: ['cjs'], // CommonJS format for Obsidian plugins
-      fileName: () => 'main.js', // Output file name
+      entry: resolve(__dirname, 'src/main.ts'),
+      formats: ['cjs'],
+      fileName: () => 'main.js',
     },
     rollupOptions: {
-      external: ['obsidian'], // Mark 'obsidian' as an external dependency
+      external: ['obsidian'],
       output: {
+        format: 'cjs',
         chunkFileNames: '[name].js',
-        manualChunks: {
-          settings: ['./src/settings.ts']
-        }
       }
     },
-    outDir: 'dist', // Output directory
-    emptyOutDir: true, // Clean the output directory before building
+    outDir: 'dist',
+    emptyOutDir: false
   },
-  css: {
-    // Ensure CSS is bundled into a single file
-    preprocessorOptions: {
-      css: {
-        charset: false,
-      },
-    },
-  },
+  publicDir: false
 });

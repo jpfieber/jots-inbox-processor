@@ -1,5 +1,6 @@
 import { Plugin, TFile, TFolder, TAbstractFile } from 'obsidian';
 import { InboxProcessorSettings, Rule, DEFAULT_SETTINGS } from './settings-model.js';
+import { InboxProcessorSettingTab } from './settings.js';
 
 class InboxProcessorPlugin extends Plugin {
     settings!: InboxProcessorSettings;  // Use definite assignment assertion
@@ -9,8 +10,6 @@ class InboxProcessorPlugin extends Plugin {
         console.log('Inbox Processor: Loading plugin');
         await this.loadSettings();
 
-        // Load settings tab dynamically from the 'settings' chunk
-        const { InboxProcessorSettingTab } = await import(/* @vite-ignore */ './settings.js');
         this.addSettingTab(new InboxProcessorSettingTab(this.app, this));
 
         const interval = this.getInterval();
@@ -144,7 +143,7 @@ class InboxProcessorPlugin extends Plugin {
         if (!folderExists || !(folderExists instanceof TFolder)) {
             await this.app.vault.createFolder(targetPath);
         }
-        
+
         const targetFilePath = `${targetPath}/${file.name}`;
         const fileExists = await this.app.vault.adapter.exists(targetFilePath);
 

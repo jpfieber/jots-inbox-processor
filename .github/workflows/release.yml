@@ -29,6 +29,8 @@ jobs:
       - name: Copy files to root
         run: |
           cp dist/main.js .
+          mkdir -p assets
+          cp -r dist/assets/* assets/
 
       - name: Create release
         env:
@@ -39,4 +41,4 @@ jobs:
           gh release create "$tag" \
             --title="$tag" \
             --draft \
-            main.js manifest.json styles.css
+            main.js manifest.json styles.css assets/*
