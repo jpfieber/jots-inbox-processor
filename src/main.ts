@@ -91,6 +91,12 @@ class InboxProcessorPlugin extends Plugin {
         } catch (error) {
             console.error("Error processing inbox:", error);
         }
+
+        // Set up the next interval after processing is complete
+        const interval = this.getInterval();
+        if (interval !== null) {
+            this.interval = window.setTimeout(() => this.processInbox(), interval);
+        }
     }
 
     private async processFile(file: TFile, rule: Rule) {

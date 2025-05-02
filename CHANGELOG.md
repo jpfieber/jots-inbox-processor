@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this plugin will be documented in this file.
 
-## 1.1.18 (2025-05-01)
+## 1.1.19 (2025-05-01)
 
     - Applied suggestions for release to community plugins
 

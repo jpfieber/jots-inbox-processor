@@ -83,6 +83,9 @@ export class InboxProcessorSettingTab extends PluginSettingTab {
         new Setting(containerEl).setName('Rules').setHeading();
         this.addRulesTable(containerEl);
 
+        // Add horizontal rule before Support section
+        containerEl.createEl('hr', { cls: 'settings-separator' });
+
         // Support section
         new Setting(containerEl).setName('Support').setHeading();
         this.addWebsiteSection(containerEl);
